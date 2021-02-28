@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "farmaci",
+            "database": "${workspaceFolder:PROJ FARMACI SQLITE}/DB/farmaci.db"
+        }
+    ],
+    "python.pythonPath": "C:\\Python39\\python.exe"
+}

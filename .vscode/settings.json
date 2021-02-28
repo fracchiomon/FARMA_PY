@@ -1,0 +1,12 @@
+{
+    "python.pythonPath": "C:\\tools\\Anaconda3\\python.exe",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "farmaci",
+            "database": "${workspaceFolder:PROGRAMMAZIONE}/python/CODE/PROJ FARMACI SQLITE/DB/farmaci.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
