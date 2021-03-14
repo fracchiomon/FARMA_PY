@@ -2,4 +2,6 @@
 
 Prima versione del progetto in SQLite3 di Farma_Py, piccolo DB per immagazzinare info su liste farmaci per uso di catalogazione.
 
-Al momento **è funzionante solo la versione TTY** (terminale), sono al lavoro sulla versione con implementazione di Tkinter  
+Sono disponibili due versioni nelle rispettive cartelle:
+* Console Version, interamente nel terminale
+* GUI Version, basata su Tkinter
