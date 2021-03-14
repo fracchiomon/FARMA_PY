@@ -82,17 +82,21 @@ def delete_item_by_name(conn, name):
         print(e)
 
 
-def print_table(conn):
+def print_table(db_file):
     try:
+        conn = connect(db_file)
         c = conn.cursor()
         c.execute("""SELECT * FROM farmaci;""")
         rows = c.fetchall()
+        rows_list = []
         print("\n")
         for row in rows:
             print(row)
+            rows_list.append(row)
         
         conn.commit()
         print("\n")
+        return rows_list
     except Error as e:
         print("\n")
         print(e)
