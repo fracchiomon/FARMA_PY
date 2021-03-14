@@ -1,5 +1,7 @@
 import sqlite3 as sql
+
 from sqlite3 import Error
+
 import sys
 import db_funcs
 import tkinter as tk
@@ -57,29 +59,7 @@ def gui(conn):
     qty_day_var = DoubleVar()
     ssn_var = IntVar()
     
-    name = tk.Entry(root, width = 40)
-    name.grid(row = 0, column = 1, padx = 20, ipady = 2)
     
-    qty_conf = tk.Entry(root, width = 40)
-    qty_conf.grid(row = 1, column = 1, ipady = 2)
-    
-    qty_day = tk.Entry(root, width = 40)
-    qty_day.grid(row = 2, column = 1, ipady = 2)
-    
-    ssn = tk.Entry(root, width = 40)
-    ssn.grid(row = 3, column = 1, ipady = 2)
-    
-
-
-    # labels
-    name_label = Label(root, text = "Nome")
-    name_label.grid(row = 0, column = 0, sticky=tk.W, padx=5)
-    qty_conf_label = Label(root, text = "Quantità per Confezione")
-    qty_conf_label.grid(row = 1, column = 0, sticky=tk.W, padx=5)
-    qty_day_label = Label(root, text = "Quantità al Giorno\n[ES: 2.5]")
-    qty_day_label.grid(row = 2, column = 0, sticky=tk.W, padx=5)
-    ssn_label = Label(root, text = "Coperto da SSN?\n[1: Si || 0: No]")
-    ssn_label.grid(row = 3, column = 0, sticky=tk.W, padx=5)
     
     # submit func
     def clear():
@@ -135,14 +115,11 @@ def gui(conn):
     # submit button
     def submit_window():
         sub_win = tk.Tk()
-        sub_win.title("FARMA_PY")
+        sub_win.title("FARMA_PY: NEW ITEM")
         sub_win.geometry("420x150")
         sub_win.resizable(False,False)
         
-        name_var = StringVar()
-        qty_conf_var = IntVar()
-        qty_day_var = DoubleVar()
-        ssn_var = IntVar()
+        
         
         name = tk.Entry(sub_win, width = 40)
         name.grid(row = 0, column = 1, padx = 20, ipady = 2)
@@ -174,15 +151,17 @@ def gui(conn):
         submit_btn = tk.Button(sub_win, text = "Inserisci in DB", command = submit)
         submit_btn.grid(row = 4, column = 1)
  
-        
-        
+    # button to submit window
+    
+    to_submit_btn = ttk.Button(root, text="Inserisci Nuovo Elemento", command=submit_window)
+    to_submit_btn.grid(row=0, column=0, padx=5, pady=10, ipadx=100, ipady=30)    
         
     def view():
     # PRINT BOX
         global db
         
         print_view = tk.Tk()
-        print_view.title("FARMA_PY")
+        print_view.title("FARMA_PY: VIEW DB")
         print_view.geometry("800x260")
         
         rows_list = db_funcs.print_table(db_file=db)
@@ -210,10 +189,36 @@ def gui(conn):
         
         
         
-        
-    
-    submit_btn = tk.Button(root, text = "Inserisci in DB", command = submit)
-    submit_btn.grid(row = 4, column = 0, columnspan = 2, ipady = 10, padx = 10, ipadx = 100, sticky=tk.W)
+    def delete_window():
+      del_win = tk.Tk()
+      del_win.title("FARMA_PY: DELETE")
+      del_win.geometry("420x150")
+      del_win.resizable(False,False)
+      
+      name = tk.Entry(del_win, width = 40)
+      name.grid(row = 0, column = 1, padx = 20, ipady = 2)
+      
+      name_label = Label(del_win, text = "Nome")
+      name_label.grid(row = 0, column = 0, sticky=tk.W, padx=5)
+      
+      
+      def delete_func():
+        name_var = name.get()
+        name.delete(0, END)
+        db_funcs.delete_item_by_name(db, name_var)
+        return
+      
+      
+      to_delete_btn = ttk.Button(root, text="Elimina un Elemento", command=delete_window)
+      to_delete_btn.grid(row=0,column=1,columnspan=2,padx=5,pady=10,ipadx=100,ipady=30)
+      delete_btn = ttk.Button(del_win, text="Cancella Elemento", command=delete_func)
+      
+      delete_btn.grid(row=1,column=0,sticky=tk.W,padx=5,ipadx=100,ipady=30)
+            
+      close_btn = ttk.Button (del_win, text="ESCI", command=del_win.destroy)
+      close_btn.grid(row=1, column=1, sticky=delete_btn, padx=15, ipady=20)
+ 
+ 
  
     close_btn = ttk.Button (root, text="ESCI", command=root.destroy)
     close_btn.grid(row=4, column=1, sticky=tk.E, padx=15, ipady=20)
@@ -222,7 +227,7 @@ def gui(conn):
     print_btn = tk.Button(root, text = "STAMPA DB", command = view)
     print_btn.grid(row = 5, column = 0, columnspan = 2, ipady = 10, padx = 10, ipadx = 104, sticky=tk.W)
     
-    # cascade menu
+    # cascade menu(s)
     
     drop = tk.Menu(root)
     root.config(menu=drop)
@@ -234,7 +239,40 @@ def gui(conn):
     data_func.add_command(label="Visualizza Database", command=view)
     data_func.add_separator()
     data_func.add_command(label="Esci", command=exit)
-
+    
+    
+    drop_insert = tk.Menu(sub_win)
+    sub_win.config(menu=drop_insert)
+        
+    data_func_insert = tk.Menu(drop_insert)
+    drop_insert.add_cascade(labels="Operazioni", menu=data_func_insert)
+    data_func_insert.add_command(label="Elimina Elemento", command=delete_window)
+    data_func_insert.add_command(label="Visualizza Database", command=view)
+    data_func_insert.add_separator()
+    data_func_insert.add_command(label="Esci", command=exit)
+    
+    drop_del = tk.Menu(del_win)
+    del_win.config(menu=drop_del)
+        
+    data_func_del = tk.Menu(drop_del)
+    drop_del.add_cascade(labels="Operazioni", menu=data_func_del)
+    data_func_del.add_command(label="Inserisci Nuovo Elemento", command=submit_window)
+    data_func_del.add_separator()
+    data_func_del.add_command(label="Visualizza Database", command=view)
+    data_func_del.add_separator()
+    data_func_del.add_command(label="Esci", command=exit)
+    
+    drop_view = tk.Menu(print_view)
+    print_view.config(menu=drop_view)
+        
+    data_func_view = tk.Menu(drop_view)
+    drop_view.add_cascade(labels="Operazioni", menu=data_func_view)
+    data_func_view.add_command(label="Inserisci Nuovo Elemento", command=submit_window)
+    data_func_view.add_separator()
+    data_func_view.add_command(label="Elimina Elemento", command=delete_window)
+    data_func_view.add_separator()
+    data_func_view.add_command(label="Esci", command=exit)
+    
 
 # main execution
 if __name__ == '__main__':

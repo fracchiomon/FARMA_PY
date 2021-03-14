@@ -69,14 +69,15 @@ def insert_item(conn, name, q_conf, q_day, ssn):
 
 
 
-def delete_item_by_name(conn, name):
+def delete_item_by_name(db_file, name):
 
     try:
+        conn = connect(db_file)
         c = conn.cursor()
         c.execute("DELETE FROM farmaci WHERE name=?", (name,))
         conn.commit()
-        
-        print("Inserimento Avvenuto\n")
+        conn.close()
+        print("\nCancellazione Avvenuta\n")
     except Error as e:
         print("\n")
         print(e)
