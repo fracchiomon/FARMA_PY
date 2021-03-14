@@ -92,7 +92,7 @@ def print_table(db_file):
         rows_list = []
         print("\n")
         for row in rows:
-            print(row)
+            # print(row)
             rows_list.append(row)
         
         conn.commit()
@@ -114,21 +114,17 @@ def print_by_name(conn, name):
     except Error as e:
         print(e)
         
-def flush_db(conn):
-    print("\nSEI SICURO DI VOLER CANCELLARE TUTTI GLI ELEMENTI DEL DB?\n")
-    choice = input("[y/n]\t")
-    if choice == 'y':
-        try:
-
-            c = conn.cursor()
-            c.execute("DELETE FROM farmaci;")
-        except Error as e:
+def flush_db(db_file):
+    try:
+        conn = connect(db_file)
+        c = conn.cursor()
+        c.execute("DELETE FROM farmaci;")
+        conn.commit()
+        conn.close()
+        return
+    except Error as e:
             print(e)
-    elif choice == 'n':
-        return
-    else:
-        print("\nINPUT NON CORRETTO.")
-        return
+
     
 def menu():
     print("Benvenuto, digita la tua scelta:\n")
