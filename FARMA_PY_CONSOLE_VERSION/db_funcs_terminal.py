@@ -42,6 +42,7 @@ def insert_by_user(conn):
         ssn_insert = int(
             input("E' coperto dal Servizio Sanitario Nazionale? [1 - Si || 0 - No]\t"))
 
+        # passaggio nella tabella dei valori opportunamente convertiti
         c.execute("""INSERT INTO farmaci VALUES (?, ?, ?, ?, ?);""",
                   (name_insert, q_conf_insert, q_day_insert, est_date_insert, ssn_insert))
 
@@ -53,28 +54,29 @@ def insert_by_user(conn):
         print(e)
 
 
-def insert_item(conn, name, q_conf, q_day, ssn):
-    """(FARMA_PY: GUI) - Inserimento dall'utente mediante Entry box della libreria Tk:\n
-    Il valore 'Durata Stimata' (est variable nella funzione) è dato da una basilare stima approssimata"""
-    try:
-        c = conn.cursor()
+# def insert_item(conn, name, q_conf, q_day, ssn):
+#     """(FARMA_PY: GUI) - Inserimento dall'utente mediante Entry box della libreria Tk:\n
+#     Il valore 'Durata Stimata' (est variable nella funzione)
+#     è dato da una basilare stima approssimata"""
+#     try:
+#         c = conn.cursor()
 
-        # catch dell'errore "divisione per 0" -> se denominatore = 0 => est = 0
-        if float(q_day) == 0:
-            est = 0
-        else:
-            est = int(q_conf) // float(q_day)
+#         # catch dell'errore "divisione per 0" -> se denominatore = 0 => est = 0
+#         if float(q_day) == 0:
+#             est = 0
+#         else:
+#             est = int(q_conf) // float(q_day)
 
-        # passaggio nella tabella dei valori opportunamente convertiti
-        c.execute("""INSERT INTO farmaci VALUES (?, ?, ?, ?, ?);""",
-                  (name, int(q_conf), float(q_day), int(est), int(ssn)))
+#         # passaggio nella tabella dei valori opportunamente convertiti
+#         c.execute("""INSERT INTO farmaci VALUES (?, ?, ?, ?, ?);""",
+#                   (name, int(q_conf), float(q_day), int(est), int(ssn)))
 
-        conn.commit()
+#         conn.commit()
 
-        print("\nInserimento Avvenuto!\n")
-    except Error as e:
-        print("\n")
-        print(e)
+#         print("\nInserimento Avvenuto!\n")
+#     except Error as e:
+#         print("\n")
+#         print(e)
 
 
 def delete_item_by_name(conn, name):
