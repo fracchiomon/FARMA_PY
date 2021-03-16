@@ -87,7 +87,7 @@ def main():
                 clear()
                 break
             else:
-                print("\nINPUT NON VALIDO.")
+                print("\nINPUT NON VALIDO.") 
         # fine programma, chiamo una chiusura "di sicurezza" della connessione
         conn.close()
     else:
