@@ -1,6 +1,6 @@
 # FARMA_PY
 
-Prima versione del progetto in SQLite3 di Farma_Py, piccolo DB per immagazzinare info su liste farmaci per uso di catalogazione.
+Prima versione (in Lingua Italiana) del progetto in SQLite3 di Farma_Py, piccolo DB per immagazzinare info su liste farmaci per uso di catalogazione.
 
 Sono disponibili due versioni nelle rispettive cartelle:
 * Console Version, interamente nel terminale
@@ -9,6 +9,11 @@ Sono disponibili due versioni nelle rispettive cartelle:
 ## REQUISITI
 
 * Python3 + Standard Library (TKinter e SQLite3 sono già incluse)
+
+### DA INCLUDERE
+
+* Traduzione in inglese
+* Finalizzazione binary release
 
 ---
 
